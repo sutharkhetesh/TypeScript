@@ -13,10 +13,13 @@ async function main() {
   // await browser.close();
   const productsData = []
   const $ = load(await page.content())
-  $('#product-grid > ul > li [class="card__content"] [class="card__heading h5"] a').each((_, el) => {
+  $('#product-grid > ul > li ').each((_, el) => {
     // console.log($(el).text());
+    const price = $('[class="card__content"] [class="price__container"] [class="price__regular"] [class="price-item price-item--regular"]', el).text()
+    const name = $('[class="card__content"] [class="card__heading h5"] a', el).text()
     productsData.push({
-      name: $(el).text()
+      name
+      , price
     })
   })
   writeFile('products.json', JSON.stringify(productsData, null, 2))
